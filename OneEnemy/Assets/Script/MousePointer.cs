@@ -16,6 +16,7 @@ public class MousePointer : MonoBehaviour
         // right mouse input
         if (Input.GetMouseButtonDown(1))
         {
+            CancelInvoke("Inactive");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 10000f))
