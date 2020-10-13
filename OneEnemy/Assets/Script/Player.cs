@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
     bool dDown;
     bool s1Down;
     bool isDodge = false;
+    float coolDodge = 3f;
+    float delayDodge = 3f;
     bool isMove = false;
     bool isAttack = false;
 
@@ -17,6 +19,7 @@ public class Player : MonoBehaviour
     Vector3 moveVec;
 
     Animator anim;
+    public Weapon weapon;
 
     void Awake()
     {
@@ -63,7 +66,7 @@ public class Player : MonoBehaviour
 
     void Move()
     {
-        if(Vector3.Distance(destination, transform.position) <= 0.01f)
+        if(Vector3.Distance(destination, transform.position) <= 0.1f)
         {
             isMove = false;
             anim.SetBool("isMove", isMove);
@@ -84,6 +87,10 @@ public class Player : MonoBehaviour
 
     void Dodge()
     {
+        delayDodge += Time.deltaTime;
+        if (delayDodge < coolDodge)
+            return;
+
         // when press dodge button & not doing dodge & if moving
         if (dDown && !isDodge && isMove && !isAttack)
         {
@@ -99,7 +106,10 @@ public class Player : MonoBehaviour
 
             // player immortal
             gameObject.layer = 9;
-            
+
+            // dodge cool reset
+            delayDodge = 0;
+
             // invoke dodge finish
             Invoke("DodgeOut", 1f);
         }
@@ -128,6 +138,9 @@ public class Player : MonoBehaviour
             // animation
             anim.SetTrigger("doSlash_4to6");
             isAttack = true;
+
+            // attack
+            weapon.Use();
 
             // invoke dodge finish
             Invoke("AttackOut", 1f);
