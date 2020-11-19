@@ -10,6 +10,4 @@ Platform: PC
 
 Director: jOoN
 
-Company: π-o-neer
-
 Thanks to: Adobe Mixamo(character), itsmars(cursor) 
